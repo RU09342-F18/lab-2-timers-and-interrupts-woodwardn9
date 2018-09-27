@@ -20,8 +20,8 @@ int main(void)
     P1IE |= BIT1; //Enables interrupt on Pin 1.1 (Button)
     P1IES |= BIT1; //Enables high - to - low behavior on interrupt (Button press)
     TB0CCTL0 = CCIE;// CCR0 interrupt enabled
-    TB0CCR0 =  20000; //Sets value in the CCR0 register
-    TBCTL = TBSSEL_2 + MC_1 + ID_3;  // SMCLK selected, Up-Count Enabled, Divider = 8
+    TB0CCR0 =  1024; //Sets value in the CCR0 register
+    TBCTL = TBSSEL_1 + MC_1 + ID_3;  // ACLK selected, Up-Count Enabled, Divider = 8
 
 __enable_interrupt(); //Enables interrupts
     while (1) //Infinite while loop
@@ -39,7 +39,7 @@ __enable_interrupt(); //Enables interrupts
 #pragma vector=PORT1_VECTOR //Port 1 Interrupt that is triggered when Pin 1.1 is set from high to low (Pressing the button)
 __interrupt void Port_1(void)
 {
-    TB0CCR0 -= 1000; //Subtracts the value in the CCR0 register by 1000, effectively speeding up the frequency
+    TB0CCR0 -= 100; //Subtracts the value in the CCR0 register by 1000, effectively speeding up the frequency
     P1IFG &= ~BIT1; //Resets interrupt flag initially triggered
         }
 
