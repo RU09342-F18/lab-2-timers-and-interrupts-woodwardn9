@@ -49,8 +49,11 @@ WDTCTL = WDTPW | WDTHOLD;
   
   # Port 1 Interrupt
   
-  	CCR0 -= 100; //Subtracts the value in the CCR0 register by 100, effectively speeding up the frequency
-   	P1IFG &= ~BIT3; //Resets interrupt flag initially triggered
+  	CCR0 -= 100; 
+//Subtracts the value in the CCR0 register by 100, effectively speeding up the frequency
+
+   	P1IFG &= ~BIT3; 
+//Resets interrupt flag initially triggered
     
  # Differences between MSP430G2553 and MSP430FR2311
  Although mostly the same, below are the primary changes that can be observed:
