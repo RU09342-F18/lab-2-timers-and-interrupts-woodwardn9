@@ -20,7 +20,7 @@ int main(void)
     P1IE |= BIT1; //Enables interrupt on Pin 1.1 (S2)
     P1IES |= BIT1; //Enables high - to - low behavior on interrupt on Pin 1.1 (S2)
     TA0CCTL0 = CCIE;  // CCR0 Interrupt Enabled
-    TA0CCR0 =  100;  //Sets Frequency
+    TA0CCR0 =  103;  //Sets Frequency to 10HZ
     TA0CTL = TASSEL_1 + MC_1+ID_3;          // ACLK selected, Up-Mode, Divider set to 4
 
 __enable_interrupt(); //Enables Interrupts
