@@ -43,6 +43,7 @@ NOTE: A odd debounce was noticed in the F5229LP board for this section of the la
 Although mostly the same, below are the primary changes that can be observed:
 - All instances of BIT3 become BIT1
 - All instances of P1DIR = 0x41 become 0x01
+- ALl instances of P1OUT = 0x41 become 0x01
 
 # Results
 Based on the code above and the full code in the readme's, each board is successfully able to trigger an LED toggle on a button press using interrupts.
