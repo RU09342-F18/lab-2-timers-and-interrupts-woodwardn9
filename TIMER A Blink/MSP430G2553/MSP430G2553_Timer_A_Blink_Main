@@ -18,7 +18,7 @@ int main(void)
 	P1IES |= BIT3; //Enables high - to - low behavior on interrupt (Button press)
 	CCTL0 = CCIE;// CCR0 interrupt enabled
 	CCR0 =  1024; //Sets value in the CCR0 register to be 1HZ initially
-	TACTL = TASSEL_2 + MC_1 + ID_3;  // SMCLK selected, Up-Count Enabled, Divider = 8
+	TACTL = TASSEL_1 + MC_1 + ID_3;  // ACLK selected, Up-Count Enabled, Divider = 8
 
 __enable_interrupt(); //Enables interrupts
 	while (1) //Infinite while loop
