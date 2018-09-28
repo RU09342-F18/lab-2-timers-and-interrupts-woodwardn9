@@ -1,15 +1,68 @@
 # TIMER A Blink
-The TIMER peripherals can be used in many situations thanks to it flexibility in features. For this lab, you will be only scratching the surface as to what this peripheral can do. 
+  The purpose of this code is to control the speed of one or two LEDs by pressing a button on the devolpment board.
+This is achieved by utilizing an Up-Count clock and CCRO register to set the frequency. To achieve this task, both the MSP430G2553 and MSP430FR2311 boards were used for this code.
 
-## Up, Down, Continuous 
-There are a few different ways that the timer module can count. For starters, one of the easiest to initialize is Continuous counting where in the TIMER module will alert you when its own counting register overflows. Up mode allows you to utilize a Capture/Compare register to have the counter stop at a particular count and then start back over again. You can also set the TIMER to Up/Down mode where upon hitting a counter or the overflow, instead of setting the counter back to zero, it will count back down to zero. 
+# Functionality
+This code utilizes two interrupts; a Timer A0 interrupt and a Port1 interrupt. When a partiular value in the CCR0 value is met, the internal Timer A will trigger an interrupt, causing the LED(s) to toggle on or off. Then, the clock overflows and returns to 0. When the correct button is pressed (1.1 for the FR2311 and 1.3 for the G2553), the Port 1 interrupt will occur. In this instance, the value in the CCR0 register is decremented by sets of 100
 
-## Task
-Using the TIMER module instead of a software loop, control the speed of two LEDS blinking on your development boards. Experiment with the different counting modes available as well as the effect of the pre-dividers. Why would you ever want to use a pre-divider? What about the Capture and Compare registers? Your code should include a function (if you want, place it in its own .c and .h files) which can convert a desired Hz into the proper values required to operate the TIMER modules.
+Determining the Frequency: (ACLK/8) / (2 * (2 * CCRO)), where:
+ACLK = 32786 HZ
+ID_3 = divide by 8
+2 * 2 = account for period and double hits
+CCR0 = Value in CCR0
 
-### Extra Work
-#### Thinking with HALs
-So maybe up to this point you have noticed that your software is looking pretty damn similar to each other for each one of these boards. What if there was a way to abstract away all of the particulars for a processor and use the same functional C code for each board? Just for this simple problem, why don't you try and build a "config.h" file which using IFDEF statements can check to see what processor is on board and initialize particular registers based on that.
 
-#### Low Power Timers
-Since you should have already done a little with interrupts, why not build this system up using interrupts and when the processor is basically doing nothing other than burning clock cycles, drop it into a Low Power mode. Do a little research and figure out what some of these low power modes actually do to the processor, then try and use them in your code. If you really want to put your code to the test, using the MSP430FR5994 and the built in super cap, try and get your code to run for the longest amount of time only using that capacitor as your power source.
+# Initlization
+WDTCTL = WDTPW | WDTHOLD;	
+// Stop watchdog timer
+
+	P1DIR |= 0X41; 
+  //Sets Pins 1.0 (GREEN LED) and 1.6 (RED LED) to be outputs
+  
+	P1REN |= BIT3; //Sets Pin 1.3 (Button) to be pull up/down enabled
+	
+  P1OUT |= BIT3; 
+  //Sets Pin 1.3 (Button) to pull up resistor
+	
+  P1OUT |= 0X41; 
+  //Sets Pins 1.0 (GREEN LED) and 1.6 (RED LED) to be ON to begin
+	
+  P1IE |= BIT3; 
+  //Enables interrupt on Pin 1.3 (Button)
+	
+  P1IES |= BIT3; 
+  //Enables high - to - low behavior on interrupt (Button press)
+	
+  CCTL0 = CCIE;
+  // CCR0 interrupt enabled
+	
+  CCR0 =  1024; 
+  //Sets value in the CCR0 register. This value is defined by the equation referenced in the top of the README. In this case, the frequency was set to be 1HZ
+	
+  TACTL = TASSEL_1 + MC_1 + ID_3;  
+  // ACLK selected, Up-Count Enabled, Divider = 8
+  
+  # Timer A Interrupt
+  
+  P1OUT ^= 0X41; 
+  //Toggles Pins 1.0 and 1.6 (GREEN and RED LEDs) on and off
+  
+  # Port 1 Interrupt
+  
+  CCR0 -= 100; //Subtracts the value in the CCR0 register by 100, effectively speeding up the frequency
+   P1IFG &= ~BIT3; //Resets interrupt flag initially triggered
+    
+ # Differences between MSP430G2553 and MSP430FR2311
+ Although mostly the same, below are the primary changes that can be observed:
+ 
+ - All instances of BIT3 (Button) are changed to BIT1
+ - All instances of P1OUT is changed to P1OUT = 0X01;
+ - All instances of P1DIR is changed to P1DIR = 0X01;
+ -All instances of TIMER A and values relying on Timer A are changed to Timer B, such as:
+ TB0CCTL0, TB0CCR0, TBCTL, and TIMER0_B0_VECTOR
+ - P2OUT = 0X01 is set to as an output on second LED 
+    
+ # Results
+ Essentially, once the button is pressed, the value in CCR0 will decrement by 100, speeding up the frequency. Then, once it goes beyond 0, an overflow occurs.
+  
+
