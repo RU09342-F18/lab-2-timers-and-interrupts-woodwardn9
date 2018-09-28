@@ -1,6 +1,6 @@
 #include <msp430.h> 
 
-
+'''c
 /**
  * main.c
  * The purpose of this code is to control the speed of two LEDs by pressing a button on the development board.
