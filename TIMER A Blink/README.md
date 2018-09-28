@@ -20,8 +20,11 @@ CCR0 = Value in CCR0
 
 
 # Initlization
-WDTCTL = WDTPW | WDTHOLD;	
+	WDTCTL = WDTPW | WDTHOLD;	
 // Stop watchdog timer
+
+	BCSCTL3 = LFXT1S_2; 
+//Enables 32Khz crystal
 
 	P1DIR |= 0X41;
   //Sets Pins 1.0 (GREEN LED) and 1.6 (RED LED) to be outputs
