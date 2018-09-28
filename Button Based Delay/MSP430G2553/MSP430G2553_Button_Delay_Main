@@ -19,7 +19,7 @@ int main(void)
     P1IE |= BIT3; //Enables interrupt on PIN 1.3 (Button)
     P1IES |= BIT3; //Enables high - to - low behavior on interrupt on Pin 1.3 (BUTTON)
     CCTL0 = CCIE; //Enables interrupts
-    CCR0 =  100;  //Set Frequency
+    CCR0 =  103;  //Set Frequency to 10HZ
     TACTL = TASSEL_1 + MC_1 + ID_3;// ACLK selected, Up-Count Enabled, Divider = 8
 
 __enable_interrupt(); //Enables Interrupts
