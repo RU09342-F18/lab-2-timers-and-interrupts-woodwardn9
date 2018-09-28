@@ -3,13 +3,20 @@
 This is achieved by utilizing an Up-Count clock and CCRO register to set the frequency. To achieve this task, both the MSP430G2553 and MSP430FR2311 boards were used for this code.
 
 # Functionality
-This code utilizes two interrupts; a Timer A0 interrupt and a Port1 interrupt. When a partiular value in the CCR0 value is met, the internal Timer A will trigger an interrupt, causing the LED(s) to toggle on or off. Then, the clock overflows and returns to 0. When the correct button is pressed (1.1 for the FR2311 and 1.3 for the G2553), the Port 1 interrupt will occur. In this instance, the value in the CCR0 register is decremented by sets of 100
+This code utilizes two interrupts; a Timer A0 interrupt and a Port1 interrupt. When a partiular value in the CCR0 value is met, the internal Timer A will trigger an interrupt, causing the LED(s) to toggle on or off. Then, the clock overflows and returns to 0. When the correct button is pressed (1.1 for the FR2311 and 1.3 for the G2553), the Port 1 interrupt will occur. In this instance, the value in the CCR0 register is decremented by sets of 100.
 
-Determining the Frequency: (ACLK/8) / (2 * (2 * CCRO)), where:
+Determining the Frequency: 
+
+(ACLK/8) / (2 * (2 * CCRO))
+
 ACLK = 32786 HZ
+
 ID_3 = divide by 8
+
 2 * 2 = account for period and double hits
+
 CCR0 = Value in CCR0
+
 
 
 # Initlization
