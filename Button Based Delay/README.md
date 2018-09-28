@@ -87,5 +87,5 @@ This code utilizes two interrupts; a Timer A0 interrupt and a Port1 interrupt. W
  - All instances of CCTL, CCR0, and TACCTL are changed to TA0CCTL, TA0CCR0, TA0CCTL.
     
  # Results
- Essentially, once the button is pressed, the value in CCR0 will decrement by 100, speeding up the frequency. Then, once it goes beyond 0, an overflow occurs.
+It can be observed that holding down the button for a set amount of time and releasing will cause that time value to be the new frequency of the timer. It should be noted that an overflow can cause the result to be different than what is expected.
   
