@@ -16,41 +16,41 @@ CCR0 = Value in CCR0
 WDTCTL = WDTPW | WDTHOLD;	
 // Stop watchdog timer
 
-	P1DIR |= 0X41; 
+	P1DIR |= 0X41;
   //Sets Pins 1.0 (GREEN LED) and 1.6 (RED LED) to be outputs
   
 	P1REN |= BIT3; //Sets Pin 1.3 (Button) to be pull up/down enabled
 	
-  P1OUT |= BIT3; 
+ 	 P1OUT |= BIT3; 
   //Sets Pin 1.3 (Button) to pull up resistor
 	
-  P1OUT |= 0X41; 
+	  P1OUT |= 0X41; 
   //Sets Pins 1.0 (GREEN LED) and 1.6 (RED LED) to be ON to begin
 	
-  P1IE |= BIT3; 
+  	P1IE |= BIT3; 
   //Enables interrupt on Pin 1.3 (Button)
 	
-  P1IES |= BIT3; 
+ 	 P1IES |= BIT3; 
   //Enables high - to - low behavior on interrupt (Button press)
 	
-  CCTL0 = CCIE;
+ 	 CCTL0 = CCIE;
   // CCR0 interrupt enabled
 	
-  CCR0 =  1024; 
+ 	 CCR0 =  1024; 
   //Sets value in the CCR0 register. This value is defined by the equation referenced in the top of the README. In this case, the frequency was set to be 1HZ
 	
-  TACTL = TASSEL_1 + MC_1 + ID_3;  
+  	TACTL = TASSEL_1 + MC_1 + ID_3;  
   // ACLK selected, Up-Count Enabled, Divider = 8
   
   # Timer A Interrupt
   
-  P1OUT ^= 0X41; 
+  	P1OUT ^= 0X41; 
   //Toggles Pins 1.0 and 1.6 (GREEN and RED LEDs) on and off
   
   # Port 1 Interrupt
   
-  CCR0 -= 100; //Subtracts the value in the CCR0 register by 100, effectively speeding up the frequency
-   P1IFG &= ~BIT3; //Resets interrupt flag initially triggered
+  	CCR0 -= 100; //Subtracts the value in the CCR0 register by 100, effectively speeding up the frequency
+   	P1IFG &= ~BIT3; //Resets interrupt flag initially triggered
     
  # Differences between MSP430G2553 and MSP430FR2311
  Although mostly the same, below are the primary changes that can be observed:
