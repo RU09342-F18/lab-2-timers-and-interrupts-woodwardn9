@@ -71,6 +71,7 @@ WDTCTL = WDTPW | WDTHOLD;
  -All instances of TIMER A and values relying on Timer A are changed to Timer B, such as:
  TB0CCTL0, TB0CCR0, TBCTL, and TIMER0_B0_VECTOR
  - P2OUT = 0X01 is set to as an output on second LED 
+ -P2OUT ^= 0X01 is added to the Timer interrupt
     
  # Results
  Essentially, once the button is pressed, the value in CCR0 will decrement by 100, speeding up the frequency. Then, once it goes beyond 0, an overflow occurs.
